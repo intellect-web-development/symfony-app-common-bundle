@@ -35,9 +35,10 @@ doctrine_migrations:
 - Exception/HTTP/Domain базовые, EventSubscriber (exception, metrics, rate limit)
 - Entry Console (devops CLI)
 - PlatformToken
+- Platform Messenger: `Messages\Platform\IntegrationSystemEventMessage`, `Messenger\PlatformEnvelopeSerializer` (конверт `{type, integrationSystemCode, payload}`)
 - `McpToolDurationSubscriber` — только если установлен MCP (`symfony/mcp-bundle`)
 
-Не входит (остаётся в приложении): продуктовые `Messages/*`, Gateways, `*UnavailableHttpException`, расширенный `LogTag`, recipe-book AggregateRoot и т.п.
+Не входит (остаётся в приложении): продуктовые `Messages/*` (Auth, Terms, Filesystem, Payment, Profile и т.п.), Gateways, `*UnavailableHttpException`, расширенный `LogTag`, recipe-book AggregateRoot и т.п.
 
 ## Flusher + Filesystem
 
