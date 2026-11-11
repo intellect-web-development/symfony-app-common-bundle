@@ -1,0 +1,26 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    _instanceof:
+        Doctrine\Common\EventSubscriber:
+            tags:
+                name: doctrine.event_subscriber
+                connection: default
+
+    IWD\SymfonyAppCommon\:
+        resource: '../../*'
+        exclude:
+            - '../../DependencyInjection/'
+            - '../../Resources/'
+            - '../../SymfonyAppCommonBundle.php'
+            - '../../EventSubscriber/Metrics/McpToolDurationSubscriber.php'
+
+    IWD\SymfonyAppCommon\Service\Core\Flusher: ~
+
+    Symfony\Component\Serializer\SerializerInterface:
+        factory: [ 'IWD\SymfonyAppCommon\Container\SerializerFactory', 'create' ]
+
+    IWD\SymfonyAppCommon\Service\Notifier\SystemNoReplyEmailNotifierInterface:
+        class: IWD\SymfonyAppCommon\Service\Notifier\SystemNoReplyEmailNotifier

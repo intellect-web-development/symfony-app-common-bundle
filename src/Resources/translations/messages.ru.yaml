@@ -1,0 +1,4 @@
+app:
+    http:
+        internal_error: 'Внутренняя ошибка сервиса'
+        bad_request: 'Некорректный запрос'

@@ -1,0 +1,47 @@
+{
+    "name": "intellect-web-development/symfony-app-common-bundle",
+    "description": "Shared infrastructure kernel for IWD Symfony monoliths (Common module)",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexander Erin",
+            "role": "Maintainer"
+        }
+    ],
+    "require": {
+        "php": ">=8.4",
+        "doctrine/dbal": "^4.0",
+        "doctrine/doctrine-bundle": "^2.13 || ^3.0",
+        "doctrine/orm": "^3.0",
+        "intellect-web-development/measurement": "^1.1",
+        "intellect-web-development/symfony-doctrine-search-bundle": "^2.0",
+        "intellect-web-development/symfony-entry-contract-bundle": "^1.2",
+        "promphp/prometheus_client_php": "^2.6",
+        "psr/log": "^3.0",
+        "symfony/config": "^7.3 || ^8.0",
+        "symfony/console": "^7.3 || ^8.0",
+        "symfony/dependency-injection": "^7.3 || ^8.0",
+        "symfony/framework-bundle": "^7.3 || ^8.0",
+        "symfony/http-kernel": "^7.3 || ^8.0",
+        "symfony/lock": "^7.3 || ^8.0",
+        "symfony/mailer": "^7.3 || ^8.0",
+        "symfony/messenger": "^7.3 || ^8.0",
+        "symfony/rate-limiter": "^7.3 || ^8.0",
+        "symfony/serializer": "^7.3 || ^8.0",
+        "symfony/validator": "^7.3 || ^8.0",
+        "webmozart/assert": "^1.11 || ^2.0",
+        "firebase/php-jwt": "^6.0 || ^7.0"
+    },
+    "suggest": {
+        "symfony/mcp-bundle": "Required for McpToolDurationSubscriber"
+    },
+    "autoload": {
+        "psr-4": {
+            "IWD\\SymfonyAppCommon\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
