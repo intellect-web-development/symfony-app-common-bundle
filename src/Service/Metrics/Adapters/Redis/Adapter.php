@@ -19,12 +19,14 @@ readonly class Adapter implements AdapterInterface
     ) {
         $this->adapter = new \Prometheus\Storage\Redis([
             'host' => $config->host,
+            'prefix' => $config->redisPrefix(),
         ]);
     }
 
     /**
      * iwd-metrics-sidecar — общий Redis на все монолиты (METRICS_SIDECAR_HOST).
-     * ::collect() отдаёт все namespace'ы, лежащие в этом Redis; здесь оставляем только свой.
+     * 'prefix' выше не фильтрует ::collect() (prometheus_client_php его не поддерживает),
+     * поэтому дробим по namespace здесь.
      * Битый сэмпл (array_combine keys/values) не должен валить весь /metrics 500-кой.
      */
     public function collect(): array

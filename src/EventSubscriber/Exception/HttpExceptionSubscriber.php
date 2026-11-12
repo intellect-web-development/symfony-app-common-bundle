@@ -137,17 +137,8 @@ readonly class HttpExceptionSubscriber
                 status: Response::HTTP_UNPROCESSABLE_ENTITY,
                 messages: $this->extractMessages(exception: $exception, locale: $locale),
             );
-        } catch (\Doctrine\DBAL\Exception $exception) {
-            if ($this->shouldPassThroughDebug($format)) {
-                return;
-            }
-            $this->respond(
-                event: $event,
-                format: $format,
-                status: Response::HTTP_BAD_REQUEST,
-                messages: [$this->translator->trans(self::BAD_REQUEST_KEY, [], null, $locale)],
-            );
         } catch (Throwable $exception) {
+            // В т.ч. Doctrine DBAL: 500, не 400. SQL не попадает в messages.
             if ($this->shouldPassThroughDebug($format)) {
                 return;
             }
