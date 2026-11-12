@@ -19,4 +19,9 @@ readonly class Config
         // Prometheus metric names: [a-zA-Z_:][a-zA-Z0-9_:]* — hyphens (e.g. from APP_SLUG) are invalid.
         $this->namespace = str_replace('-', '_', $namespace);
     }
+
+    public function redisPrefix(): string
+    {
+        return 'PROMETHEUS_' . $this->namespace . '_';
+    }
 }
