@@ -21,6 +21,3 @@ services:
 
     Symfony\Component\Serializer\SerializerInterface:
         factory: [ 'IWD\SymfonyAppCommon\Container\SerializerFactory', 'create' ]
-
-    IWD\SymfonyAppCommon\Service\Notifier\SystemNoReplyEmailNotifierInterface:
-        class: IWD\SymfonyAppCommon\Service\Notifier\SystemNoReplyEmailNotifier
