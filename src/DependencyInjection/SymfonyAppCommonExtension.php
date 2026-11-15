@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace IWD\SymfonyAppCommon\DependencyInjection;
 
-use IWD\SymfonyAppCommon\EventSubscriber\Metrics\McpToolDurationSubscriber;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -17,12 +16,6 @@ class SymfonyAppCommonExtension extends Extension implements PrependExtensionInt
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
-
-        if (class_exists(\Mcp\Event\RequestEvent::class)) {
-            $container->register(McpToolDurationSubscriber::class)
-                ->setAutowired(true)
-                ->setAutoconfigured(true);
-        }
     }
 
     public function prepend(ContainerBuilder $container): void

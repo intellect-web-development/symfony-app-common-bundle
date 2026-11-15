@@ -24,7 +24,7 @@ doctrine_migrations:
     custom_template: '%kernel.project_dir%/vendor/intellect-web-development/symfony-app-common-bundle/src/Doctrine/Template/MigrationTemplate.dist'
 ```
 
-`RateLimitingPass` регистрируется самим бандлом — ручная регистрация в `App\Kernel` не нужна.
+`RateLimitingPass` регистрируется в `App\Kernel::build()` приложения (не бандлом).
 
 ## Состав
 
@@ -32,13 +32,23 @@ doctrine_migrations:
 - Doctrine types (`MeasurementType`, `BigIntType`), `UpdatedAt` + listener
 - Cipher, Redis, Lock, Json, Http, Metrics, Notifier, простой `Flusher`
 - `TransactionSideEffectInterface` — opt-in для Filesystem cleanup после коммита
-- Exception/HTTP/Domain базовые, EventSubscriber (exception, metrics, rate limit)
+- Exception/HTTP/Domain базовые (классы исключений, не подписчики)
+- `RateLimiter\Attribute\RateLimiting` (атрибут; listener и CompilerPass — в приложении)
 - Entry Console (devops CLI)
 - PlatformToken
 - Platform Messenger: `Messages\Platform\IntegrationSystemEventMessage`, `Messenger\PlatformEnvelopeSerializer` (конверт `{type, integrationSystemCode, payload}`)
-- `McpToolDurationSubscriber` — только если установлен MCP (`symfony/mcp-bundle`)
 
-Не входит (остаётся в приложении): продуктовые `Messages/*` (Auth, Terms, Filesystem, Payment, Profile и т.п.), Gateways, `*UnavailableHttpException`, расширенный `LogTag`, recipe-book AggregateRoot и т.п.
+## Ответственность приложения (не бандла)
+
+Бандл **не** регистрирует реакции на события. В каждом монолите должны быть:
+
+- `src/Common/Dictionary/LogTag.php`
+- `src/Common/EventSubscriber/` (Exception, Metrics, RateLimitter)
+- `src/Common/DependencyInjection/Compiler/RateLimitingPass.php`
+- регистрация Pass и опционального `McpToolDurationSubscriber` в `App\Kernel::build()`
+- exclude `EventSubscriber/Metrics/McpToolDurationSubscriber.php` в `Common/Resource/config/services.yaml`
+
+Не входит (остаётся в приложении): продуктовые `Messages/*`, Gateways, `*UnavailableHttpException`, `LogTag`, EventSubscriber, recipe-book AggregateRoot и т.п.
 
 ## Flusher + Filesystem
 
